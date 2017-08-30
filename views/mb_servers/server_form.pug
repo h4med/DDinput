@@ -1,0 +1,73 @@
+extends ../layout
+
+block content
+  if server
+    h1 #{title}: #{server.name}
+  else
+    h1 #{title}: Create New Server
+  p All fields have to be filled. 
+  p
+  form(method='POST' action='')
+    div(class='row')
+      div(class='col-sm-6')
+        div.form-group
+          label(for='name') Server Name:
+          input#name.form-control(type='text', placeholder='for example: Server No.1' name='name' required='false' value=(undefined===server ? '' : server.name) )
+
+        div.form-group
+          label(for='port_num') Port Number:
+          input#port_num.form-control(type='text', placeholder='for example: 1502' name='port_num' required='false' value=(undefined===server ? '' : server.port_num))
+          label(for='ip_add') IP Address:
+          input#ip_add.form-control(type='text', placeholder='for example: 192.168.100.1' name='ip_add' required='false' value=(undefined===server ? '' : server.ip_add))  
+
+        div.form-group
+          label(for='coils_ref') Coils Ref.:
+          input#coils_ref.form-control(type='text', placeholder='0-9999' name='coils_ref' required='false' value=(undefined===server ? '' : server.coils_blk[0]))
+          label(for='coils_count') Coils Count.:
+          input#coils_count.form-control(type='text', placeholder='0-2000, Set 0 to disable' name='coils_count' required='false' value=(undefined===server ? '' : server.coils_blk[1]))  
+
+        div.form-group
+          label(for='poll_status') Polling Status:
+          select#poll_status.form-control(type='select', placeholder='Select Run/Stop', name='poll_status', required='true')
+            if server
+              option(value='stop', selected=(server.poll_status == 'stop')?'selected': false) Stop
+            else
+              option(value='stop') Stop
+            if server
+              option(value='run' , selected=(server.poll_status == 'run')?'selected': false) Run
+            else
+              option(value='run') Run              
+
+            
+
+
+      div(class='col-sm-6')
+        div.form-group
+          label(for='dis_ref') Discrete Input Ref.:
+          input#dis_ref.form-control(type='text', placeholder='0-9999' name='dis_ref' required='false' value=(undefined===server ? '' : server.dis_blk[0]))
+          label(for='dis_count') Discrete Input Count.:
+          input#dis_count.form-control(type='text', placeholder='0-2000, Set 0 to disable' name='dis_count' required='false' value=(undefined===server ? '' : server.dis_blk[1]))
+
+        div.form-group
+          label(for='inregs_ref') Input Register Ref.:
+          input#inregs_ref.form-control(type='text', placeholder='0-9999' name='inregs_ref' required='false' value=(undefined===server ? '' : server.inregs_blk[0]))
+          label(for='inregs_count') Input Register Count.:
+          input#inregs_count.form-control(type='text', placeholder='0-125, Set 0 to disable' name='inregs_count' required='false' value=(undefined===server ? '' : server.inregs_blk[1]))
+
+        div.form-group
+          label(for='holdings_ref') Holding Register Ref.:
+          input#holdings_ref.form-control(type='text', placeholder='0-9999' name='holdings_ref' required='false' value=(undefined===server ? '' : server.holdings_blk[0]))
+          label(for='holdings_count') Holding Register Count.:
+          input#holdings_count.form-control(type='text', placeholder='0-125, Set 0 to disable' name='holdings_count' required='false' value=(undefined===server ? '' : server.holdings_blk[1]))                    
+    button.btn.btn-primary(type='submit') Submit  
+    | 
+    if(server) 
+      a(href=server.url, class="btn btn-primary") Back 
+    else
+      a(href='/servers/list-all', class="btn btn-warning") Cancel
+  p
+  if errors 
+    div.alert.alert-danger
+      ul
+        for error in errors
+          li!= error.msg    

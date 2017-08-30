@@ -1,0 +1,63 @@
+doctype html
+html
+    head
+        meta(charset="utf-8")
+        meta(http-equiv="X-UA-Compatible", content="IE=edge")
+        meta(name="viewport", content="width=device-width, initial-scale=1")
+        meta(name="description", content="Data-diode Input web config")
+        meta(name="author", content="Hamed Davandeh - MAPCS")
+        title
+            if(title)
+                | Data-Diode IN - #{title}
+            else
+                | Data-Diode
+
+        link(rel='stylesheet', href="/stylesheets/bootstrap.min.css")
+        link(rel='stylesheet', href='/stylesheets/style.css')
+        script(src="/javascripts/socket.io.js")
+        script.
+            var socket = io('/', {transports: ['websocket']});
+
+    body
+        nav(class="navbar navbar-inverse")
+            div.container
+                div.navbar-header
+                    button(type="button", class="navbar-toggle collapsed", data-toggle="collapse", data-target="#navbar", aria-expanded="false", aria-controls="navbar")
+                        span.sr-only Toggle navigation
+                        span.icon-bar
+                        span.icon-bar
+                        span.icon-bar
+                    //- a(class="navbar-brand",href="/") Data Diode
+                    a(href="/", calss="navbar-left")
+                        img(src="/images/logo.png")
+                div(id="navbar", class="navbar-collapse collapse")
+                    ul(class="nav navbar-nav")
+                        li(class=title=='Device Configuration'?'active':undefined)
+                            a(href="/") Device Configuration                        
+                        li(class=title=='Modbus Configuration'?'active':undefined)
+                            a(href="/servers") Modbus Configuration
+                        li(class=title=='Run'?'active':undefined)
+                            a(href="/run") Run
+                        li(class=title=='About'?'active':undefined)
+                            a(href="/about") About
+                        if !user
+                            li(class=(title === 'Login') ? 'active' : undefined)
+                                a(href='/login') Login
+                        else                        
+                            li
+                                a(href="/logout") logout                          
+        div(class='row')
+        div(class='col-sm-1')
+                
+        div(class='col-sm-11')
+            include ./partials/flash
+            block content
+
+        if title =='About'
+            include partials/footer
+        if title =='Login'
+            include partials/footer            
+                
+        script(src="/javascripts/jquery-3.2.1.min.js")
+        script(src="/javascripts/bootstrap.min.js")
+        

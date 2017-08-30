@@ -1,0 +1,22 @@
+extends ../layout
+
+block content
+  h1 Server: #{server_detail.name}
+  p Do you really want to delete this Server?
+
+  p #[strong IP:] #{server_detail.ip_add}
+  p #[strong Port:] #{server_detail.port_num}  
+  p #[strong Status:] 
+    if server_detail.poll_status=='run'
+      span.text-success #{server_detail.poll_status}
+    else
+      span.text-danger #{server_detail.poll_status} 
+
+    
+  form(method='POST' action='')
+    div.form-group
+      input#serverid.form-control(type='hidden',name='serverid', required='true', value=server_detail._id )
+
+    button.btn.btn-danger(type='submit') Delete
+  p
+  a(href='/config/servers', class="btn btn-primary") Cancel

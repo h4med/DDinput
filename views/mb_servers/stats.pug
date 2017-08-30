@@ -1,0 +1,23 @@
+extends ../layout
+
+block content
+  h1= title
+  p Welcome to #[em Main Page], Here you can configure Modbus Servers (Slaves).
+
+  h2 Current Servers
+
+  if error
+    p Error getting dynamic content.
+  else
+    p The data-base has the following records:
+
+    ul
+      li #[strong NO. of Servers:] !{data.server_count}
+      li #[strong NO. of Run Servers:] !{data.server_run_count}
+      li #[strong NO. of Stop Servers:] !{data.server_stop_count} 
+      //li #[strong NO. of Users:] !{data.user_count}
+  p
+  p
+  a(href='/servers/list-all', class="btn btn-primary") View All Servers
+  |  
+  a(href='/servers/create', class="btn btn-success") Add New Server  

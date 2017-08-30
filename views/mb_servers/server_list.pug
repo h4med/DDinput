@@ -1,0 +1,44 @@
+extends ../layout
+
+block content
+	h1= title
+	p This is the list of all #[em Servers] added.
+
+	table.table.table-bordered
+		thead
+			tr
+				th.
+					#
+				th.
+					Name
+				th.
+					IP Add
+				th.
+					Status
+				th.
+					Configuration
+		tbody
+			each server, i in server_list
+				tr
+					th.
+						#{ i + 1}
+					td
+						a(href=server.url) #{server.name} 
+					td.
+						#{server.ip_add}
+					td
+						if server.poll_status=='run'
+							span.text-success #{server.poll_status} 
+						else
+							span.text-danger #{server.poll_status} 
+					td   
+						a(href=server.url+'/edit', class="btn btn-success") Edit
+						|   
+						a(href=server.url+'/edit/tags', class="btn btn-success") Tags 
+						|   
+						a(href=server.url+'/delete', class="btn btn-danger") Delete 
+			else
+				li There are no servers. 
+	p
+	p
+	a(href='/servers/create', class="btn btn-primary") Add New Server

@@ -1,0 +1,24 @@
+extends ../layout
+
+block content
+	h1= title
+	p Her you can see device status information. And also you can Change the IP of device.
+	p 
+	ul
+		li
+			|Hostname: #{deviceinfo.hostname}
+		li 
+			|Free/Total Memory: #{deviceinfo.freemem}MB/ #{deviceinfo.totalmem}MB
+		li
+			|Uptime (hour): #{deviceinfo.uptime}
+		li
+			|Cpu load (%): #{deviceinfo.loadavg}%		
+		li
+			|OS info: #{deviceinfo.platform} - #{deviceinfo.release}
+		li
+			|IP: #{deviceinfo.eth0.address}
+	p
+	p
+	a(href='/device/change-ip', class="btn btn-success") Change IP 
+	|  
+	a(href='/device/change-password', class="btn btn-success") Change Password 

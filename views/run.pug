@@ -1,0 +1,88 @@
+extends layout
+
+block content
+	h1= title
+	p Here it is the Run page. Results of polling Servers that are in 'run' mode is shown here.
+	
+	each server, i in server_list
+		if server.poll_status=='run'
+			div(class='row')
+				div(class='col-sm-12')
+					div(class='row')
+						h2 Name: #{server.name}
+						h4 IP: #{server.ip_add}
+						div(class='col-sm-3')
+							p(id="coils"+server.id)
+						div(class='col-sm-3')
+							p(id="dis"+server.id)
+						div(class='col-sm-3')
+							p(id="holdings"+server.id)
+						div(class='col-sm-3')
+							p(id="inregs"+server.id)
+			hr
+
+
+	script.
+		socket.on('connect', function(){
+			console.log('\n me- Connected');
+		});
+
+		socket.on('mydata', function(data){
+			console.log(data[4].server_name);
+
+			var coils = data[0];
+			var holdings = data[1];
+			var dis = data[3];
+			var inregs = data[2];
+			var id = data[5].id;		
+
+			if(coils.res != null){
+				var rows = "<h3>Coils:</h3> <p>";
+				for (var i = 0; i < coils.Len ; i++){
+					rows += coils.Add + i +' - ' + coils.Tags[i] + ' - ' + coils.res[i] + '<br>';
+					}
+				document.getElementById("coils"+id).innerHTML=rows;
+			}
+			else{
+				document.getElementById("coils"+id).innerHTML="coils: " + JSON.stringify(coils.error.message);
+			}
+
+			if(holdings.res != null){
+				var rows = "<h3>Holding Registers:</h3> <p>";
+				for (var i = 0; i < holdings.Len ; i++){
+					rows += holdings.Add + i +' - ' + holdings.Tags[i] + ' - ' + holdings.res[i] + '<br>';
+					}
+				document.getElementById("holdings"+id).innerHTML=rows;
+			}
+			else{
+				document.getElementById("holdings"+id).innerHTML="holdings: " + JSON.stringify(holdings.error.message);
+			}
+
+			if(dis.res != null){
+				var rows = "<h3>Discrete Inputs:</h3> <p>";
+				for (var i = 0; i < dis.Len ; i++){
+					rows += dis.Add + i +' - ' + dis.Tags[i] + ' - ' + dis.res[i] + '<br>';
+					}
+				document.getElementById("dis"+id).innerHTML=rows;
+			}
+			else{
+				document.getElementById("dis"+id).innerHTML="dis: " + JSON.stringify(dis.error.message);
+			}
+
+			if(inregs.res != null){
+				var rows = "<h3>Input Registers:</h3> <p>";
+				for (var i = 0; i < inregs.Len ; i++){
+					rows += inregs.Add + i +' - ' + inregs.Tags[i] + ' - ' + inregs.res[i] + '<br>';
+					}
+				document.getElementById("inregs"+id).innerHTML=rows;
+			}
+			else{
+				document.getElementById("inregs"+id).innerHTML="inregs: " + JSON.stringify(inregs.error.message);
+			}
+		});
+
+
+
+
+
+

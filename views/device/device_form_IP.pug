@@ -1,0 +1,26 @@
+extends ../layout
+
+block content
+  h1 #{title}: Chnage IP settings
+  p All fields have to be filled. 
+  p Be carefull that after setting new IP, the device will restart automatically and you will loose your connection.
+  p
+  form(method='POST' action='')
+    div(class='row')
+      div(class='col-sm-6')
+        div.form-group
+          label(for='address') IP Address:
+          input#address.form-control(type='text', placeholder='192.168.100.100' name='address' required='true' value=(undefined===eth0 ? '' : eth0[0].address) )
+          label(for='netmask') Netmask:
+          input#netmask.form-control(type='text', placeholder='255.255.255.0' name='netmask' required='true' value=(undefined===eth0 ? '' : eth0[0].netmask))
+                  
+    button.btn.btn-primary(type='submit') Submit  
+    | 
+    a(href='/', class="btn btn-warning") Cancel
+  p
+  p
+  if errors 
+    div.alert.alert-danger
+      ul
+        for error in errors
+          li!= error.msg    

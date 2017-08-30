@@ -1,0 +1,82 @@
+extends ../layout
+
+block content
+  h1 #{title}
+  h2 #{server.name}
+  h3 #{server.ip_add} : #{server.port_num}
+  p Not required to fill all fields.
+  p 
+  form(method='POST' action='')
+    div(class='row')
+      div(class='col-sm-3')
+        div.form-group
+          p #[strong Coils:]
+            p
+            - var i =0;
+            input(type='hidden', name="no_coils_tags", value = server.coils_blk[1])
+            while  i < server.coils_blk[1]
+              label(for='coils_tags_' + i) #{server.coils_blk[0]+i}:
+
+              if(server.coils_tags[i]) 
+                input(class='form-control', type='text', placeholder='coils_tags_'+i name='coils_tags' required='false' value=server.coils_tags[i])
+              else
+                input(class='form-control', type='text', placeholder='coils_tags_'+i name='coils_tags' required='false' value="Tag Not Defined")
+              p
+              - i++;             
+
+      div(class='col-sm-3')
+        div.form-group
+          p #[strong Discretes Inputs:]
+            p
+            - var i =0;
+            input(type='hidden', name="no_dis_tags", value = server.dis_blk[1])            
+            while  i < server.dis_blk[1]
+              label(for='dis_tags_' + i) #{server.dis_blk[0]+i}:
+
+              if(server.dis_tags[i]) 
+                input(class='form-control', type='text', placeholder='dis_tags_'+i name='dis_tags' required='false' value=server.dis_tags[i])
+              else
+                input(class='form-control', type='text', placeholder='dis_tags_'+i name='dis_tags' required='false' value="Tag Not Defined")
+              p
+              - i++;
+
+      div(class='col-sm-3')
+        div.form-group
+          p #[strong Input Registers:]
+            p
+            - var i =0;
+            while  i < server.inregs_blk[1]
+              label(for='inregs_tags_' + i) #{server.inregs_blk[0]+i}:
+
+              if(server.inregs_tags[i]) 
+                input(class='form-control', type='text', placeholder='inregs_tags_'+i name='inregs_tags' required='false' value=server.inregs_tags[i])
+              else
+                input(class='form-control', type='text', placeholder='inregs_tags_'+i name='inregs_tags' required='false' value="Tag Not Defined")
+              p
+              - i++;
+
+      div(class='col-sm-3')
+        div.form-group
+          p #[strong Holding Registers:]
+            p
+            - var i =0;
+            while  i < server.holdings_blk[1]
+              label(for='holdings_tags_' + i) #{server.holdings_blk[0]+i}:
+
+              if(server.holdings_tags[i]) 
+                input(class='form-control', type='text', placeholder='holdings_tags_'+i name='holdings_tags' required='false' value=server.holdings_tags[i])
+              else
+                input(class='form-control', type='text', placeholder='holdings_tags_'+i name='holdings_tags' required='false' value="Tag Not Defined")
+              p
+              - i++;
+    p
+    br             
+    button.btn.btn-primary(type='submit') Submit
+    |  
+    a(href=server.url, class="btn btn-warning") Back     
+  p
+  if errors 
+    div.alert.alert-danger
+      ul
+        for error in errors
+          li!= error.msg             

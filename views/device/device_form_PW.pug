@@ -1,0 +1,31 @@
+extends ../layout
+
+block content
+  h1 #{title}: Change Password
+  p All fields have to be filled. 
+  p Please choose a password that you would remember!
+  br
+  form(method='POST' action='')
+    div(class='row')
+      div(class='col-sm-6')       
+        div.form-group
+          label(for='old_pw') Old Password:
+          input#address.form-control(type='password', placeholder='Old Password' name='old_pw' required='true' )
+          label(for='new_pw') New Password:
+          input#netmask.form-control(type='password', placeholder='New Password' name='new_pw' required='true' )
+          label(for='new_pw_con') Confirm Password:
+          input#netmask.form-control(type='password', placeholder='Repeat New Password' name='new_pw_con' required='true' )
+          
+    button.btn.btn-primary(type='submit') Submit  
+    | 
+    a(href='/', class="btn btn-warning") Cancel
+  br
+  p
+  p
+  if errors 
+    div(class='row')
+      div(class='col-sm-6')
+        div.alert.alert-danger
+          ul
+            for error in errors
+              li!= error.msg    

@@ -1,0 +1,95 @@
+extends ../layout
+
+block content
+  h1 #{title}
+  h2 Name: #{server_detail.name}
+
+  div(class='row')
+    div(class='col-sm-12')
+      div(class='row')
+        div(class='col-sm-6') 
+          | #[strong IP:Port :] #{server_detail.ip_add}:#{server_detail.port_num}
+          p
+        div(class='col-sm-6') 
+          | #[strong Status:] 
+          if server_detail.poll_status=='run'
+            span.text-success #{server_detail.poll_status}
+          else
+            span.text-danger #{server_detail.poll_status} 
+          p
+      div(class='row')
+        div(class='col-sm-6') 
+          | #[strong DI Ref.:] #{server_detail.dis_blk[0]}
+          p #[strong DI Count:] #{server_detail.dis_blk[1]}
+        div(class='col-sm-6') 
+          | #[strong Coils Ref.:] #{server_detail.coils_blk[0]}
+          p #[strong Coils Count:] #{server_detail.coils_blk[1]}
+      div(class='row')
+        div(class='col-sm-6')           
+          | #[strong Holding Registers Ref.:] #{server_detail.holdings_blk[0]}
+          p #[strong Holding Registers Count:] #{server_detail.holdings_blk[1]}
+        div(class='col-sm-6') 
+          | #[strong Input Registers Ref.:] #{server_detail.inregs_blk[0]}
+          p #[strong Input Registers Count:] #{server_detail.inregs_blk[1]}  
+      hr
+
+  p
+    a(href=server_detail.url+'/delete', class="btn btn-danger") Delete Server  
+    |   
+    a(href=server_detail.url+'/edit', class="btn btn-success") Edit Server  
+    |   
+    a(href=server_detail.url+'/edit/tags', class="btn btn-success") Edit Tags 
+    |   
+    a(href='/servers/list-all', class="btn btn-primary") Back      
+  p
+      hr
+
+      p #[strong Tags:]
+      div(class='row')
+        div(class='col-sm-3') 
+          p #[strong Coils:]
+          - var i =0;
+          while  i < server_detail.coils_blk[1]
+            |#{server_detail.coils_blk[0]+i} - 
+            if(server_detail.coils_tags[i]) 
+              | #{server_detail.coils_tags[i]}
+            else
+              |Tage Not Defined
+            p
+            - i++;
+
+        div(class='col-sm-3') 
+          p #[strong Discrete Inputs:]   
+          - var i =0;
+          while  i < server_detail.dis_blk[1]
+            |#{server_detail.dis_blk[0]+i} - 
+            if(server_detail.dis_tags[i]) 
+              | #{server_detail.dis_tags[i]}
+            else
+              |Tage Not Defined
+            p
+            - i++;                
+
+        div(class='col-sm-3') 
+          p #[strong Input Registers:]
+          - var i =0;
+          while  i < server_detail.inregs_blk[1]
+            |#{server_detail.inregs_blk[0]+i} - 
+            if(server_detail.inregs_tags[i]) 
+              | #{server_detail.inregs_tags[i]}
+            else
+              |Tage Not Defined
+            p
+            - i++;  
+
+        div(class='col-sm-3') 
+          p #[strong Holding Registers:]
+          - var i =0;
+          while  i < server_detail.holdings_blk[1]
+            |#{server_detail.holdings_blk[0]+i} - 
+            if(server_detail.holdings_tags[i]) 
+              | #{server_detail.holdings_tags[i]}
+            else
+              |Tage Not Defined
+            p
+            - i++;                                      
