@@ -4,12 +4,9 @@ const session = require('express-session');
 const path = require('path');
 const favicon = require('serve-favicon');
 const logger = require('morgan');
-// const errorHandler = require('errorhandler');
 const dotenv = require('dotenv').config();
-// console.log('dotenv-> '+dotenv);
 const lusca = require('lusca');
 const MongoStore = require('connect-mongo')(session);
-// const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const expressValidator = require('express-validator');
 const expressStatusMonitor = require('express-status-monitor');
@@ -151,9 +148,10 @@ var emitter2 = myMethods.myEmitter;
 var async = require('async');
 
 var GPIO = require('onoff').Gpio;
-var led = new GPIO(17, 'out');
-led.writeSync(1);
-var toggle = 0;
+var led = new GPIO(17, 'out'), iv;
+// led.writeSync(1);
+// var toggle = 0;
+var blink = 0;
 
 // Main function runnung modbus poll, serial print
 runServersQuery.exec(function(err, run_servers){
@@ -171,12 +169,25 @@ runServersQuery.exec(function(err, run_servers){
       else{
         // log('poll slave: '+runServers[i].name);
         myMethods.pollSlavesEmit(runServers[i], mbRunServers[i], io);
+        blink = 1;
       }
     }
-    toggle = 1 - toggle;
-    led.writeSync(toggle);
+    // toggle = 1 - toggle;
+    // led.writeSync(0);
+    // blink = 1;
   }, 1000);  
 });  
+
+iv = setInterval(function(){
+  if(blink == 1){
+    led.writeSync(0);
+    blink = 0;
+  }
+  else{
+    led.writeSync(1);
+  }
+  // blink = 0;
+}, 250 );
 
 emitter2.on("db_updated", function(data){
   log('-----------> Form Update/Create triggerred!');

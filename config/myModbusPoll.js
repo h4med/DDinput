@@ -9,7 +9,10 @@ exports.myEmitter = obj;
 
 var SerialPort = require("serialport");
 var port = new SerialPort("/dev/serial0", {
+  // baudRate: 115200
+  // baudRate: 230400
   baudRate: 460800
+  // baudRate: 921600
 });
 
 
@@ -139,7 +142,7 @@ exports.pollSlavesEmit = function(server, slave, io){
 
     port.write(JSON.stringify(poll_results)+'\n', function(err){
         if(err){
-            console.log('Error on Write: ', err.message);
+            console.log('Error on SerialPort Write: ', err.message);
         }
         //console.log('\n message written! \n')
     });    
